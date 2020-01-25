@@ -1,0 +1,8 @@
+{
+  "allowUnicodeIdentifiers" : false,
+  "ensureUniqueParams": true,
+  "npmName": "@warchant/lgtm-api-ts",
+  "projectDescription": "LGTM Javascript API",
+  "usePromises": true,
+  "npmVersion": "1.0.0"
+}
