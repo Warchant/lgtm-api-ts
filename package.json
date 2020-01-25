@@ -1,6 +1,6 @@
 {
     "name": "@warchant/lgtm-api-ts",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "NodeJS client for @warchant/lgtm-api-ts",
     "repository": "warchant/lgtm-api-ts",
     "main": "dist/api.js",
