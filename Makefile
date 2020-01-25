@@ -6,6 +6,8 @@ DOCGEN=html
 
 gen:
 	npx openapi-generator generate --git-user-id=$(GIT_USER) --git-repo-id=$(GIT_REPO) -i $(API) -g $(CODEGEN) -c config.json
+	git apply 01-patch.diff
+
 
 docs:
 	npx openapi-generator generate --git-user-id=$(GIT_USER) --git-repo-id=$(GIT_REPO) -i $(API) -g $(DOCGEN) -c config.json -o docs
