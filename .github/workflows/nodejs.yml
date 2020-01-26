@@ -1,6 +1,12 @@
 name: Node CI
 
-on: [push]
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
 
 jobs:
   build:
@@ -9,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [8.x, 10.x, 12.x]
+        node-version: [10.x, 12.x]
     env:
       CI: true
 
@@ -19,10 +25,10 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: npm install, build, and test
+    - name: yarn audit
+      run: yarn audit
+    - name: yarn install, build, and test
       run: |
-        npm install
-        npm run build --if-present
-        npm test
-    - name: npm audit
-      run: npm audit
+        yarn install
+        yarn build
+

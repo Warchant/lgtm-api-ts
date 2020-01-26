@@ -1,3 +1,4 @@
+// tslint:disable
 /**
  * LGTM API specification
  * The REST API for LGTM provides data so that you can customize how you integrate LGTM analysis into your workflow. It includes the following resources:   * `/` ([API root](https://lgtm.com/help/lgtm/api/api-v1#LGTM-API-specification-API-root))&mdash;get version information or download the specification in OpenAPI format.   * `/projects` ([Projects](https://lgtm.com/help/lgtm/api/api-v1#LGTM-API-specification-Projects))&mdash;list projects, get a summary of the current status for a project, or add new projects.   * `/analyses` ([Analyses](https://lgtm.com/help/lgtm/api/api-v1#LGTM-API-specification-Analyses))&mdash;get a summary of results, download all the alerts, or trigger analysis for a specific commit.   * `/codereviews` ([Code reviews](https://lgtm.com/help/lgtm/api/api-v1#LGTM-API-specification-Code-reviews))&mdash;trigger code review for a patch, and view the results.   * `/operations` ([Operations](https://lgtm.com/help/lgtm/api/api-v1#LGTM-API-specification-Operations))&mdash;get information about long-running tasks, for example, analyses or code reviews that you\'ve requested.   * `/snapshots` ([Snapshots](https://lgtm.com/help/lgtm/api/api-v1#LGTM-API-specification-Snapshots))&mdash;download and upload databases representing a snapshot of a codebase.   * `/queryjobs` ([Query jobs](https://lgtm.com/help/lgtm/api/api-v1#LGTM-API-specification-Query-jobs))&mdash;submit queries to evaluate against existing projects, and download their results.   * `/system` ([System](https://lgtm.com/help/lgtm/api/api-v1#LGTM-API-specification-System))&mdash;get information on the health or usage of the system.  For an overview and getting started topics, see [API for LGTM](https://lgtm.com/help/lgtm/api/api-for-lgtm). 
@@ -11,84 +12,59 @@
  */
 
 
-export class LanguageStats {
-    /**
-    * The short name for the language.
-    */
-    'language'?: string;
-    /**
-    * The status of the analysis of this language.
-    */
-    'status'?: LanguageStats.StatusEnum;
-    /**
-    * The number of alerts for this language.
-    */
-    'alerts'?: number;
-    /**
-    * The number of lines of code for this language.
-    */
-    'lines'?: number;
-    /**
-    * The latest successfully analyzed commit for the language. All statistics refer to this commit.
-    */
-    'commitId'?: string;
-    /**
-    * The time of the commit.
-    */
-    'commitDate'?: Date;
-    /**
-    * The time the commit was analyzed.
-    */
-    'analysisDate'?: Date;
+import { Configuration } from "./configuration";
+// Some imports not used depending on template conditions
+// @ts-ignore
+import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 
-    static discriminator: string | undefined = undefined;
+export const BASE_PATH = "https://lgtm.com/api/v1.0".replace(/\/+$/, "");
 
-    static attributeTypeMap: Array<{name: string, baseName: string, type: string}> = [
-        {
-            "name": "language",
-            "baseName": "language",
-            "type": "string"
-        },
-        {
-            "name": "status",
-            "baseName": "status",
-            "type": "LanguageStats.StatusEnum"
-        },
-        {
-            "name": "alerts",
-            "baseName": "alerts",
-            "type": "number"
-        },
-        {
-            "name": "lines",
-            "baseName": "lines",
-            "type": "number"
-        },
-        {
-            "name": "commitId",
-            "baseName": "commit-id",
-            "type": "string"
-        },
-        {
-            "name": "commitDate",
-            "baseName": "commit-date",
-            "type": "Date"
-        },
-        {
-            "name": "analysisDate",
-            "baseName": "analysis-date",
-            "type": "Date"
-        }    ];
+/**
+ *
+ * @export
+ */
+export const COLLECTION_FORMATS = {
+    csv: ",",
+    ssv: " ",
+    tsv: "\t",
+    pipes: "|",
+};
 
-    static getAttributeTypeMap() {
-        return LanguageStats.attributeTypeMap;
-    }
+/**
+ *
+ * @export
+ * @interface RequestArgs
+ */
+export interface RequestArgs {
+    url: string;
+    options: any;
 }
 
-export namespace LanguageStats {
-    export enum StatusEnum {
-        Success = <any> 'success',
-        Failure = <any> 'failure',
-        Pending = <any> 'pending'
+/**
+ *
+ * @export
+ * @class BaseAPI
+ */
+export class BaseAPI {
+    protected configuration: Configuration | undefined;
+
+    constructor(configuration?: Configuration, protected basePath: string = BASE_PATH, protected axios: AxiosInstance = globalAxios) {
+        if (configuration) {
+            this.configuration = configuration;
+            this.basePath = configuration.basePath || this.basePath;
+        }
+    }
+};
+
+/**
+ *
+ * @export
+ * @class RequiredError
+ * @extends {Error}
+ */
+export class RequiredError extends Error {
+    name: "RequiredError" = "RequiredError";
+    constructor(public field: string, msg?: string) {
+        super(msg);
     }
 }

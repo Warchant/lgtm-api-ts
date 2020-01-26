@@ -1,3 +1,4 @@
+// tslint:disable
 /**
  * LGTM API specification
  * The REST API for LGTM provides data so that you can customize how you integrate LGTM analysis into your workflow. It includes the following resources:   * `/` ([API root](https://lgtm.com/help/lgtm/api/api-v1#LGTM-API-specification-API-root))&mdash;get version information or download the specification in OpenAPI format.   * `/projects` ([Projects](https://lgtm.com/help/lgtm/api/api-v1#LGTM-API-specification-Projects))&mdash;list projects, get a summary of the current status for a project, or add new projects.   * `/analyses` ([Analyses](https://lgtm.com/help/lgtm/api/api-v1#LGTM-API-specification-Analyses))&mdash;get a summary of results, download all the alerts, or trigger analysis for a specific commit.   * `/codereviews` ([Code reviews](https://lgtm.com/help/lgtm/api/api-v1#LGTM-API-specification-Code-reviews))&mdash;trigger code review for a patch, and view the results.   * `/operations` ([Operations](https://lgtm.com/help/lgtm/api/api-v1#LGTM-API-specification-Operations))&mdash;get information about long-running tasks, for example, analyses or code reviews that you\'ve requested.   * `/snapshots` ([Snapshots](https://lgtm.com/help/lgtm/api/api-v1#LGTM-API-specification-Snapshots))&mdash;download and upload databases representing a snapshot of a codebase.   * `/queryjobs` ([Query jobs](https://lgtm.com/help/lgtm/api/api-v1#LGTM-API-specification-Query-jobs))&mdash;submit queries to evaluate against existing projects, and download their results.   * `/system` ([System](https://lgtm.com/help/lgtm/api/api-v1#LGTM-API-specification-System))&mdash;get information on the health or usage of the system.  For an overview and getting started topics, see [API for LGTM](https://lgtm.com/help/lgtm/api/api-for-lgtm). 
@@ -10,63 +11,65 @@
  * Do not edit the class manually.
  */
 
-import { Project } from './project';
-import { ProjectDetailsAllOf } from './projectDetailsAllOf';
-import { ProjectLanguageStats } from './projectLanguageStats';
 
-export class ProjectDetails {
-    /**
-    * The numeric identifier of the project.
-    */
-    'id'?: number;
-    /**
-    * The URL identifier of the project.
-    */
-    'urlIdentifier'?: string;
-    /**
-    * The display name of the project.
-    */
-    'name'?: string;
-    /**
-    * The full URL of the project on LGTM.
-    */
-    'url'?: string;
-    /**
-    * Per-language information.
-    */
-    'languages'?: Array<ProjectLanguageStats>;
-
-    static discriminator: string | undefined = undefined;
-
-    static attributeTypeMap: Array<{name: string, baseName: string, type: string}> = [
-        {
-            "name": "id",
-            "baseName": "id",
-            "type": "number"
-        },
-        {
-            "name": "urlIdentifier",
-            "baseName": "url-identifier",
-            "type": "string"
-        },
-        {
-            "name": "name",
-            "baseName": "name",
-            "type": "string"
-        },
-        {
-            "name": "url",
-            "baseName": "url",
-            "type": "string"
-        },
-        {
-            "name": "languages",
-            "baseName": "languages",
-            "type": "Array<ProjectLanguageStats>"
-        }    ];
-
-    static getAttributeTypeMap() {
-        return ProjectDetails.attributeTypeMap;
-    }
+export interface ConfigurationParameters {
+    apiKey?: string | ((name: string) => string);
+    username?: string;
+    password?: string;
+    accessToken?: string | ((name?: string, scopes?: string[]) => string);
+    basePath?: string;
+    baseOptions?: any;
 }
 
+export class Configuration {
+    /**
+     * parameter for apiKey security
+     * @param name security name
+     * @memberof Configuration
+     */
+    apiKey?: string | ((name: string) => string);
+    /**
+     * parameter for basic security
+     * 
+     * @type {string}
+     * @memberof Configuration
+     */
+    username?: string;
+    /**
+     * parameter for basic security
+     * 
+     * @type {string}
+     * @memberof Configuration
+     */
+    password?: string;
+    /**
+     * parameter for oauth2 security
+     * @param name security name
+     * @param scopes oauth2 scope
+     * @memberof Configuration
+     */
+    accessToken?: string | ((name?: string, scopes?: string[]) => string);
+    /**
+     * override base path
+     * 
+     * @type {string}
+     * @memberof Configuration
+     */
+    basePath?: string;
+    /**
+     * base options for axios calls
+     *
+     * @type {any}
+     * @memberof Configuration
+     */
+    baseOptions?: any;
+
+    constructor(param: ConfigurationParameters = {}) {
+        this.apiKey = param.apiKey;
+        this.username = param.username;
+        this.password = param.password;
+        this.accessToken = param.accessToken;
+        this.basePath = param.basePath;
+        this.baseOptions = param.baseOptions;
+    }
+}
