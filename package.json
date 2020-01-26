@@ -1,27 +1,32 @@
 {
-    "name": "@warchant/lgtm-api-ts",
-    "version": "1.0.1",
-    "description": "NodeJS client for @warchant/lgtm-api-ts",
-    "repository": "warchant/lgtm-api-ts",
-    "main": "dist/api.js",
-    "types": "dist/api.d.ts",
-    "scripts": {
-        "clean": "rm -Rf node_modules/ *.js",
-        "build": "tsc",
-        "test": "npm run build && node dist/ApiClient.js"
-    },
-    "author": "OpenAPI-Generator Contributors",
-    "license": "Unlicense",
-    "dependencies": {
-        "@types/bluebird": "*",
-        "@types/request": "*",
-        "bluebird": "^3.7.2",
-        "request": "^2.88.0",
-        "rewire": "^4.0.1"
-    },
-    "devDependencies": {
-        "@types/node": "13.5.0",
-        "superagent": "^5.2.1",
-        "typescript": "^3.7.5"
-    }
+  "name": "@warchant/lgtm-api-ts",
+  "version": "2.0.0",
+  "description": "OpenAPI client for @warchant/lgtm-api-ts",
+  "author": "OpenAPI-Generator Contributors",
+  "keywords": [
+    "axios",
+    "typescript",
+    "openapi-client",
+    "openapi-generator",
+    "@warchant/lgtm-api-ts"
+  ],
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc --outDir dist/",
+    "prepublishOnly": "npm run build",
+    "test": "jest --config jest.config.js"
+  },
+  "dependencies": {
+    "axios": "^0.18.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.9.1",
+    "@types/node": "^12.11.5",
+    "jest": "^25.1.0",
+    "prettify": "^0.1.7",
+    "ts-jest": "^25.0.0",
+    "typescript": "^3.6.4"
+  }
 }
