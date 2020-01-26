@@ -29,3 +29,6 @@ config.json
 LICENSE
 Makefile
 patch
+package.json
+.env.sample
+jest.config.js
