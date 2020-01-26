@@ -19,14 +19,13 @@
     "test": "jest --config jest.config.js"
   },
   "dependencies": {
-    "axios": "^0.18.0"
+    "axios": "^0.19.2"
   },
   "devDependencies": {
     "@types/jest": "^24.9.1",
-    "@types/node": "^12.11.5",
+    "@types/node": "^13.5.0",
     "jest": "^25.1.0",
-    "prettify": "^0.1.7",
     "ts-jest": "^25.0.0",
-    "typescript": "^3.6.4"
+    "typescript": "^3.7.5"
   }
 }
